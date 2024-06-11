@@ -1,9 +1,9 @@
 #!/bin/bash -l
-#PBS -l select=20:system=polaris
+#PBS -l select=10:system=polaris
 #PBS -l place=scatter
-#PBS -l walltime=03:00:00
+#PBS -l walltime=12:00:00
 #PBS -l filesystems=home:grand
-#PBS -q prod
+#PBS -q preemptable
 #PBS -A FourierHPO
 
 set -e
@@ -47,7 +47,7 @@ export RANKS_HOSTS=$(python ./subFiles/get_hosts_polaris.py)
 #-----------------
 #pip show deephyper
 
-/opt/cray/pals/1.3.4/bin/mpiexec -n ${NTOTRANKS} --ppn ${NGPUS_PER_NODE} --depth=${NDEPTH} --cpu-bind depth --envall /home/iamyixuan/work/ImPACTs/HPO/subFiles/set_affinity_gpu_polaris.sh  \
+/opt/cray/pe/pals/1.2.11/bin/mpiexec -n ${NTOTRANKS} --ppn ${NGPUS_PER_NODE} --depth=${NDEPTH} --cpu-bind depth --envall /home/iamyixuan/work/ImPACTs/HPO/subFiles/set_affinity_gpu_polaris.sh  \
 python hpo.py
 
 #gzip -9 results.csv
